@@ -1,4 +1,4 @@
-# Highwatch RAG – Google Drive Q&A Engine
+# RAG – Google Drive Q&A Engine
 
 > **Your personal ChatGPT over Google Drive.**  
 > Ingest PDFs, Docs, and text files → embed with `llama-text-embed-v2` → store in Pinecone → answer questions with OpenAI GPT-4o-mini.
@@ -26,7 +26,7 @@
 ### Folder Structure
 
 ```
-highwatch-rag/
+gdrive-rag-assistant/
 ├── connectors/
 │   └── gdrive.py          ← Google Drive OAuth + Service Account
 ├── processing/
@@ -73,7 +73,7 @@ highwatch-rag/
 ### 1. Clone & configure
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/highwatch-rag.git
+git clone https://github.com/YOUR_USERNAME/gdrive-rag-assistant.git
 cd highwatch-rag
 cp .env.example .env
 ```
