@@ -213,10 +213,10 @@ Answer a question from indexed documents.
 
 | Query | Expected Behaviour |
 |---|---|
-| "What is our refund policy?" | Retrieves policy chunks → GPT answers with doc citation |
-| "Summarize the onboarding process" | Pulls onboarding SOP → structured summary |
-| "List all compliance requirements" | Scans compliance docs → bulleted list |
-| "What are the payment terms?" | Finds contract chunks → precise answer |
+| "What are the key trends in AI and Machine Learning?" | Retrieves trend-related chunks → GPT answers with doc citation |
+| "Explain the difference between supervised and unsupervised learning" | Pulls ML concept chunks → structured explanation |
+| "What are the main challenges and limitations of AI?" | Scans both papers → bulleted list of challenges |
+| "How is AI being applied in healthcare and finance?" | Finds application chunks → precise answer with sources |
 
 ---
 

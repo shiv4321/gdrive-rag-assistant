@@ -5,10 +5,10 @@ import { Badge } from "../components/Badge";
 import { Button } from "../components/Button";
 
 const EXAMPLE_QUERIES = [
-  "What is the refund policy?",
-  "Summarize the onboarding process",
-  "What are the compliance requirements?",
-  "List all key deadlines mentioned",
+  "What are the key trends in AI and Machine Learning?",
+  "Explain the difference between supervised and unsupervised learning",
+  "What are the main challenges and limitations of AI?",
+  "How is AI being applied in healthcare and finance?",
 ];
 
 export default function AskPage() {
@@ -175,7 +175,7 @@ function EmptyState({ onExample }) {
         Start with a question
       </h2>
       <p style={{ color: "var(--text-2)", fontSize: 14, marginBottom: 28 }}>
-        Ask anything about your synced Drive documents — policies, SOPs, contracts, guides.
+        Ask anything about the AI & ML research papers synced from your Google Drive.
       </p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
         {EXAMPLE_QUERIES.map((q) => (
