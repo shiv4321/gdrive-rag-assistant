@@ -1,16 +1,3 @@
-"""
-search/vector_store.py
-──────────────────────────────────────────────────────────────────
-Thin wrapper around the Pinecone index.
-
-Public surface
-──────────────
-  VectorStore.upsert(embedded_chunks)
-  VectorStore.query(query_vector, top_k, filter)  → list[SearchResult]
-  VectorStore.delete_by_doc(doc_id)
-  VectorStore.index_stats()                        → dict
-"""
-
 from __future__ import annotations
 
 import logging
@@ -44,8 +31,6 @@ class SearchResult:
 
 
 class VectorStore:
-    """CRUD interface for the Pinecone index."""
-
     def __init__(self) -> None:
         settings = get_settings()
         self._pc = Pinecone(api_key=settings.pinecone_api_key)
@@ -55,10 +40,7 @@ class VectorStore:
         )
         self._top_k = settings.top_k_results
 
-    # ── Write ─────────────────────────────────────────────────────────────────
-
     def upsert(self, embedded_chunks: list[EmbeddedChunk]) -> int:
-        """Upsert vectors into Pinecone; returns number of vectors written."""
         if not embedded_chunks:
             return 0
 
@@ -67,14 +49,8 @@ class VectorStore:
             # Pinecone metadata values must be str / int / float / bool / list[str]
             meta = {k: str(v) if not isinstance(v, (str, int, float, bool, list)) else v
                     for k, v in ec.metadata.items()}
-            meta["chunk_text"] = ec.text  # store text in metadata for retrieval
-            vectors.append(
-                {
-                    "id": ec.chunk_id,
-                    "values": ec.embedding,
-                    "metadata": meta,
-                }
-            )
+            meta["chunk_text"] = ec.text
+            vectors.append({"id": ec.chunk_id, "values": ec.embedding, "metadata": meta})
 
         upserted = 0
         for i in range(0, len(vectors), _UPSERT_BATCH):
@@ -86,50 +62,33 @@ class VectorStore:
         logger.info("Total vectors upserted: %d", upserted)
         return upserted
 
-    # ── Read ──────────────────────────────────────────────────────────────────
-
     def query(
         self,
         query_vector: list[float],
         top_k: int | None = None,
         filter: dict | None = None,
     ) -> list[SearchResult]:
-        """Return top-k most similar chunks."""
         k = top_k or self._top_k
-
-        kwargs: dict[str, Any] = dict(
-            vector=query_vector,
-            top_k=k,
-            include_metadata=True,
-        )
+        kwargs: dict[str, Any] = dict(vector=query_vector, top_k=k, include_metadata=True)
         if filter:
             kwargs["filter"] = filter
 
         resp = self._index.query(**kwargs)
-
         results: list[SearchResult] = []
         for match in resp.get("matches", []):
             meta = match.get("metadata", {})
             text = meta.pop("chunk_text", "")
-            results.append(
-                SearchResult(
-                    chunk_id=match["id"],
-                    score=match["score"],
-                    text=text,
-                    metadata=meta,
-                )
-            )
-
+            results.append(SearchResult(
+                chunk_id=match["id"],
+                score=match["score"],
+                text=text,
+                metadata=meta,
+            ))
         return results
 
-    # ── Delete ────────────────────────────────────────────────────────────────
-
     def delete_by_doc(self, doc_id: str) -> None:
-        """Delete all chunks belonging to a document (by doc_id prefix)."""
         self._index.delete(filter={"doc_id": {"$eq": doc_id}})
         logger.info("Deleted vectors for doc_id=%s", doc_id)
-
-    # ── Stats ─────────────────────────────────────────────────────────────────
 
     def index_stats(self) -> dict:
         return self._index.describe_index_stats().to_dict()

@@ -43,8 +43,7 @@ from search.retriever import Retriever
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-# ── Shared singletons (initialised once per worker) ───────────────────────────
-# Lazy-init to avoid import-time credential errors during testing
+# lazy-init to avoid import-time credential errors during testing
 _embedder: Embedder | None = None
 _store: VectorStore | None = None
 _retriever: Retriever | None = None
@@ -70,8 +69,6 @@ def _get_retriever() -> Retriever:
         _retriever = Retriever()
     return _retriever
 
-
-# ── /sync-drive ───────────────────────────────────────────────────────────────
 
 @router.post("/sync-drive", response_model=SyncDriveResponse, tags=["Ingestion"])
 async def sync_drive(body: SyncDriveRequest) -> SyncDriveResponse:
@@ -163,8 +160,6 @@ def _process_single_file(
         )
 
 
-# ── /ask ──────────────────────────────────────────────────────────────────────
-
 @router.post("/ask", response_model=AskResponse, tags=["Q&A"])
 async def ask(body: AskRequest) -> AskResponse:
     """
@@ -204,8 +199,6 @@ async def ask(body: AskRequest) -> AskResponse:
     )
 
 
-# ── /health ───────────────────────────────────────────────────────────────────
-
 @router.get("/health", response_model=HealthResponse, tags=["System"])
 async def health() -> HealthResponse:
     """Liveness probe + index record count."""
@@ -218,8 +211,6 @@ async def health() -> HealthResponse:
     return HealthResponse(status="ok", pinecone_vectors=vector_count)
 
 
-# ── /stats ────────────────────────────────────────────────────────────────────
-
 @router.get("/stats", response_model=StatsResponse, tags=["System"])
 async def stats() -> StatsResponse:
     """Detailed Pinecone index statistics."""
@@ -231,8 +222,6 @@ async def stats() -> StatsResponse:
         namespaces=raw.get("namespaces", {}),
     )
 
-
-# ── OAuth ─────────────────────────────────────────────────────────────────────
 
 @router.get("/auth/url", tags=["Auth"])
 async def oauth_url() -> dict:

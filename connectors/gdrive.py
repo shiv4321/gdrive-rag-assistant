@@ -81,8 +81,6 @@ class DriveConnector:
         self._creds = credentials or self._build_credentials()
         self._service = build("drive", "v3", credentials=self._creds, cache_discovery=False)
 
-    # ── Auth helpers ──────────────────────────────────────────────────────────
-
     @staticmethod
     def _build_credentials() -> Any:
         settings = get_settings()
@@ -136,8 +134,6 @@ class DriveConnector:
         )
         flow.fetch_token(code=code)
         return DriveConnector(credentials=flow.credentials)
-
-    # ── Core API ──────────────────────────────────────────────────────────────
 
     def list_files(self, page_size: int = 100) -> list[DriveFile]:
         """Return all supported files from Drive (paginated)."""

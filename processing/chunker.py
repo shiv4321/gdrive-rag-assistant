@@ -103,12 +103,9 @@ def chunk_document(
     return chunks
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
-
 def _split_sentences(text: str) -> list[str]:
     """Rough sentence splitter; good enough for RAG chunking."""
     parts = re.split(r"(?<=[.!?])\s+", text)
-    # Also split on double newlines (paragraph breaks)
     result: list[str] = []
     for part in parts:
         sub = re.split(r"\n\n+", part)

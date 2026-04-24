@@ -54,8 +54,6 @@ def extract_text(data: bytes, mime_type: str) -> str:
     return _parse_txt(data)
 
 
-# ── Private parsers ───────────────────────────────────────────────────────────
-
 def _parse_pdf(data: bytes) -> str:
     text_parts: list[str] = []
     with fitz.open(stream=data, filetype="pdf") as doc:
@@ -67,7 +65,6 @@ def _parse_pdf(data: bytes) -> str:
 def _parse_docx(data: bytes) -> str:
     doc = Document(io.BytesIO(data))
     paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
-    # Also extract table cells
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
@@ -87,8 +84,6 @@ def _parse_txt(data: bytes) -> str:
 def _clean(text: str) -> str:
     """Normalise whitespace, remove null bytes and control characters."""
     text = text.replace("\x00", "")
-    # Collapse runs of blank lines to a single blank line
     text = re.sub(r"\n{3,}", "\n\n", text)
-    # Strip trailing spaces on each line
     text = "\n".join(line.rstrip() for line in text.splitlines())
     return text.strip()
