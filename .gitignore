@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+myenv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Env files
+.env
+*.local
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Google credentials
+service-account.json
+credentials.json
+token.json
+gen-lang-*.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Logs
+*.log
