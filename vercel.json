@@ -23,12 +23,5 @@
       "src": "/(.*)",
       "dest": "frontend/dist/$1"
     }
-  ],
-  "env": {
-    "PINECONE_API_KEY":    "@pinecone_api_key",
-    "PINECONE_INDEX_NAME": "@pinecone_index_name",
-    "PINECONE_HOST":       "@pinecone_host",
-    "OPENAI_API_KEY":      "@openai_api_key",
-    "GOOGLE_SERVICE_ACCOUNT_JSON": "@google_service_account_json"
-  }
+  ]
 }
