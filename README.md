@@ -82,8 +82,8 @@ Edit `.env`:
 
 ```env
 PINECONE_API_KEY=pcsk_...
-PINECONE_INDEX_NAME=drive-doc-index
-PINECONE_HOST=https://drive-doc-p3ex16d.svc.aped-4627-b74a.pinecone.io
+PINECONE_INDEX_NAME= ...
+PINECONE_HOST=https://xxxxxxxxxxxxxxxxxxxxxxxxa.pinecone.io
 OPENAI_API_KEY=sk-...
 GOOGLE_SERVICE_ACCOUNT_JSON=/path/to/service-account.json
 ```
