@@ -74,7 +74,7 @@ gdrive-rag-assistant/
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/gdrive-rag-assistant.git
-cd highwatch-rag
+cd -rag
 cp .env.example .env
 ```
 
@@ -311,4 +311,4 @@ This ensures semantic coherence within chunks while maintaining context continui
 
 ---
 
-Built for **Highwatch AI** – Trial Assignment · RAG + Google Drive
+Built for **GoogleDrive AI** – Trial Assignment · RAG + Google Drive
